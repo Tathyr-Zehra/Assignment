@@ -2,7 +2,7 @@
 /*
 Plugin Name: Pie Forms
 Description: The simple and flexible WordPress form plugin. Drag & Drop form builder to help create simple to complex forms for any purpose with just a few clicks.
-Version: 1.4.6
+Version: 1.4.7.0
 Author: Genetech Solutions
 Author URI: https://www.genetechsolutions.com
 Text Domain: pie-forms
@@ -29,7 +29,7 @@ if( !class_exists('Pie_Forms')){
 final class Pie_Forms
     {
 
-        const VERSION = '1.4.6';
+        const VERSION = '1.4.7.0';
         
         const DB_VERSION = '1.1';
 

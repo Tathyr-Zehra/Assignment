@@ -2,9 +2,9 @@
 Contributors: genetech
 Tags: Contact form, form builder, custom form, email form, forms
 Requires at least: 5.0
-Tested up to: 5.6
+Tested up to: 5.7.1
 Requires PHP: 7.0
-Stable tag: 1.4.6
+Stable tag: 1.4.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,8 @@ Create contact forms, feedback form, Request a callback form, and many more in j
 * Search filter in Select field
 * Supports multi-column layout
 * Shortcode support
+* User email notification
+* Admin email notification
 * Multiple email recipients
 * Quick Form Preview option
 * 6 Prebuilt Form templates: Contact Form , Feedback Form , Request a Call Back Form , Product Survey Form , Quote Request Form and Medical Appointment Form
@@ -118,6 +120,18 @@ Pie Forms is fully compatible with all versions of Google reCAPTCHA:
 7. Survey Form
 
 == CHANGELOG ==
+### 1.4.7.0
+* Added: Added user email notification settings
+* Added: Success message filter after form submission
+* Fixed: Scroll to error/success message on form empty submission
+* Fixed: Remove extra items on the template file
+* Fixed: Visible captcha on the focus of any field
+* Fixed: Form field setting radio uncheck on multiple items.
+* Fixed: Remove disable attribute on the dropdown field place holder
+* Fixed: Separate js / CSS file according to field visible (Code Optimization)
+* Fixed: Collapse issue on smart tag dropdown
+* Fixed: Address field placeholder text
+* Fixed: Remove negative values from number filed
 
 ### 1.4.6
 * Added: Custom validation message in name field

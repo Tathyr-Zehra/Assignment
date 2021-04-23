@@ -21,9 +21,9 @@ jQuery( function( $ ) {
 					var errors = formTuple.find( '.pie-error:visible' );
 
 					if ( errors.length > 0 ) {
-						$( [document.documentElement, document.body] ).animate({
+						/* $( [document.documentElement, document.body] ).animate({
 							scrollTop: errors.last().offset().top - 70
-						}, 800 );
+						}, 800 ); */
 						return;
 					}
 
@@ -57,6 +57,15 @@ jQuery( function( $ ) {
 						if ( 'success' === xhr.data.response || true === xhr.success ) {
 							formTuple.trigger( 'reset' );
 							formTuple.closest( '.pie-forms' ).html( xhr.data.message ).focus();
+
+							if($('.pf-success-msg').length > 0){
+								var removeHeaderHeight = $('header').height();
+									$( [document.documentElement, document.body] ).animate({
+										scrollTop: $('.pf-success-msg').offset().top - removeHeaderHeight
+									}, 800 );
+								
+								}
+
 						} else {
 							console.log(xhr.data);
 							var	form_id = formTuple.data( 'formid' ),

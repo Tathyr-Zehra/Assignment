@@ -367,7 +367,7 @@ class PIE_Form_Task {
 		
 		$message = ( isset( $this->form_data['settings']['successful_form_submission_message'] ) && !empty($this->form_data['settings']['successful_form_submission_message']) ) ? $this->form_data['settings']['successful_form_submission_message'] : __( $global_message, 'pie-forms' );
 		$html = '<div class="pf-success-msg">';
-			$html .= $message;
+			$html .= apply_filters('pie_forms_success_message_text', $message);
 		$html .= '</div>';
 
 		return $html;
@@ -483,6 +483,33 @@ class PIE_Form_Task {
 		foreach ( $email['address'] as $address ) {
 			
 			$emails->send( trim( $address ), $email['subject'], $email['message'] );
+		}
+
+
+		// SEND EMAIL TO USER
+
+		$pf_to_email_user 	= isset( $notification['pf_to_email_user'] ) ? $notification['pf_to_email_user'] : '';
+
+		$email_user 		= array();
+
+
+		$email_user['user_email_address'] = explode( ',', apply_filters( 'pie_forms_process_smart_tags', $pf_to_email_user, $form_data, $fields, $this->entry_id ) );
+
+		// SUBJECT
+		$email_user['subject']        = ! empty( $notification['pf_email_user_subject'] ) ? $notification['pf_email_user_subject'] :  __('Thank Your For Your Entry', 'pie-forms');
+
+
+		$emails->__set( 'from_name', $email['sender_name'] );
+		$emails->__set( 'from_address', $email['from_email'] );
+		$emails->__set( 'reply_to', $email['reply_to'] );
+		$emails->__set( 'cc', '' );
+		$emails->__set( 'bcc', '' );
+		$emails->__set( 'headers', '' );
+		
+		if(array_filter($email_user['user_email_address'])){
+			foreach ( $email_user['user_email_address'] as $address ) {
+				$emails->send( trim( $address ), $email_user['subject'], $notification['pf_email_user_message'] );
+			}
 		}
 
 		

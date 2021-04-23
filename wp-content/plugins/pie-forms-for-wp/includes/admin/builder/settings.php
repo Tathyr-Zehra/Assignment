@@ -53,9 +53,10 @@ class PIE_Admin_Builder_Settings extends PIE_Admin_Builder_Page {
 		$sections = apply_filters(
 			'pie_forms_builder_settings_section',
 			array(
-				'general' => esc_html__( __('General Settings', 'pie-forms' )),
-				'email'   => esc_html__( __('Email Settings', 'pie-forms' )),
-				'limit'   => esc_html__( __('Limit and Schedule', 'pie-forms' )),
+				'general' 		=> esc_html__( __('General Settings', 'pie-forms' )),
+				'email'   		=> esc_html__( __('Email Settings', 'pie-forms' )),
+				'email-user'   	=> esc_html__( __('User Email Settings', 'pie-forms' )),
+				'limit'   		=> esc_html__( __('Limit and Schedule', 'pie-forms' )),
 			),
 			$this->form_data
 		);
@@ -344,7 +345,7 @@ class PIE_Admin_Builder_Settings extends PIE_Admin_Builder_Page {
 							// --------------------------------------------------------------------//
 
 							// --------------------------------------------------------------------//
-									// Email Start
+									// Admin Email Start
 							// --------------------------------------------------------------------//
 
 							if($slug == "email"){
@@ -548,8 +549,87 @@ class PIE_Admin_Builder_Settings extends PIE_Admin_Builder_Page {
 							}
 
 							// --------------------------------------------------------------------//
-									// Email Ends
+									// Admin Email Ends
 							// --------------------------------------------------------------------//
+
+
+								// --------------------------------------------------------------------//
+									// USER Email Start
+							// --------------------------------------------------------------------//
+
+							if($slug == "email-user"){
+									
+
+								echo '<div class="pf-content-section ScrollBar pf-content-email-user-settings">';
+								
+								
+										echo '<div class="pf-content-email-settings-inner ' . esc_attr( $hidden_class ) . '">';
+										
+											$core->pie_forms_panel_field(
+												'text',
+												'email',
+												'pf_to_email_user',
+												$this->form_data,
+												esc_html__( __('User Email', 'pie-forms' )),
+												array(
+													'default'    => '{user_email}',
+													'tooltip'    => sprintf( esc_html__( __('Enter the user\'s email address (comma separated) to receive form entry notifications', 'pie-forms' ) )),
+													'smarttags'  => array(
+														'type'        => 'fields',
+														'form_fields' => 'email',
+													),
+													'parent'     => 'settings',
+												)
+											);
+
+											$core->pie_forms_panel_field(
+												'text',
+												'email',
+												'pf_email_user_subject',
+												$this->form_data,
+												esc_html__( __('User Email Subject', 'pie-forms' )),
+												array(
+													/* translators: %s: Form Name */
+													'default'    => sprintf( __('Thank Your For Your Entry - %s', 'pie-forms' ),$form_name),
+													/* translators: %1$s - General Settings docs url */
+													'tooltip'    => sprintf( esc_html__( __('Enter the subject of the user email.', 'pie-forms' ))),
+													'smarttags'  => array(
+														'type'        => 'all',
+														'form_fields' => 'all',
+													),
+													'parent'     => 'settings',
+													'subsection' => $connection_id,
+												)
+											);
+									
+											$core->pie_forms_panel_field(
+												'tinymce',
+												'email',
+												'pf_email_user_message',
+												$this->form_data,
+												esc_html__( __('User Email Message', 'pie-forms' )),
+												array(
+													'default'    => __( '', 'pie-forms' ),
+													'tooltip'    => sprintf( esc_html__( __('Enter the message of the email.', 'pie-forms' ) )),
+													'smarttags'  => array(
+														'type'        => 'all',
+														'form_fields' => 'all',
+													),
+													'parent'     => 'settings',
+													'after'      => '',
+												)
+											);
+
+										echo '</div>';
+
+							
+
+								echo '</div>';
+						}
+
+						// --------------------------------------------------------------------//
+								// USER Email Ends
+						// --------------------------------------------------------------------//
 							
 							// --------------------------------------------------------------------//
 									// limit Start

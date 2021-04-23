@@ -118,9 +118,9 @@ class PIE_Fields_Select extends PIE_Abstracts_Fields {
 
 		// Optional placeholder.
 		if ( ! empty( $field_placeholder ) ) {
-			printf( '<option value="" class="placeholder" disabled %s>%s</option>', selected( false, $has_default, false ), esc_html( $field_placeholder ) );
+			printf( '<option value="" class="placeholder" %s>%s</option>', selected( false, $has_default, false ), esc_html( $field_placeholder ) );
 		}else if(!empty($label_to_placeholder)){
-			printf( '<option value="" class="placeholder" disabled %s>%s</option>', selected( false, $has_default, false ), esc_html( $label_to_placeholder ) );
+			printf( '<option value="" class="placeholder" %s>%s</option>', selected( false, $has_default, false ), esc_html( $label_to_placeholder ) );
 		}
 
 		// Build the select options.

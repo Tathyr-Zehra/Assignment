@@ -932,7 +932,7 @@
         $('.pf-smart-tag-lists').hide();
         $('.pf-smart-tag-lists ul').empty();
         $( this ).parent().find('.pf-smart-tag-lists').toggle('show');
-        $('.pf-content-email-settings').on('click',function(){
+        $('.pf-content-section').on('click',function(){
             $('.pf-smart-tag-lists').hide();
         })
         var type = $( this ).data('type');
@@ -1043,4 +1043,17 @@
             id       = $this.parent().data( 'field-id' );
             $('#pie-forms-field-'+id).find('.pie-gdpr-label').text(value);
         });
+
+
+    // Field choices defaults - (before change) .
+    $PF_builder.on( 'mousedown', '.pie-form-field-wrapper-choices input[type=radio]', function()  {
+        var $this = $(this);
+
+        if ( $this.is( ':checked' ) ) {
+            $this.attr( 'data-checked', '1' );
+        } else {
+            $this.attr( 'data-checked', '0' );
+        }
+    });
+        
 })( jQuery );

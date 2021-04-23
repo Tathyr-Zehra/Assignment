@@ -220,25 +220,29 @@ class PIE_Shortcodes_Form {
 		
 	}
 
-	/**
-	 * Form field area.
-	 */
-	public static function fields( $form_data, $title, $description ) {
-		$structure 	= isset( $form_data['structure'] ) ? $form_data['structure'] : array();
+	private static function wp_enqueue_assests($form_data, $atts){
+
 		$is_ajax  	= $form_data['settings']['ajax_form_submission'];
-		if ( empty( $form_data['form_fields'] ) ) {
-			return;
+		$PFjQueryUI	= Pie_Forms()->core()->pie_is_field_exists( $atts['id'], 'date' ) ? array('PFjQueryUI') :'';
+		
+		if ( Pie_Forms()->core()->pie_is_field_exists( $atts['id'], 'date' ) ) {
+			wp_enqueue_script( 'jquery-ui-datepicker' );
+			wp_enqueue_style( 'PFjQueryUI' );
+
+			//DATE TIME PICKER JS
+			wp_register_style('PFjQueryUI', Pie_Forms::$url . 'assets/css/lib/jquery-ui.min.css', array(), Pie_Forms::VERSION );
 		}
+		
+
 		//FRONT END FORM STYLE
-		wp_enqueue_style('FrontEndFormCSS', Pie_Forms::$url . 'assets/css/front-end-form.css', array('PFjQueryUI'), Pie_Forms::VERSION );
+		wp_enqueue_style('FrontEndFormCSS', Pie_Forms::$url . 'assets/css/front-end-form.css', $PFjQueryUI, Pie_Forms::VERSION );
 
 		//JQUERY VLAIDATION LIBRARY
 		wp_register_script( 'jQueryValidation', Pie_Forms::$url . 'assets/js/lib/jquery.validate.min.js', array('jquery'), Pie_Forms::VERSION );
 		wp_enqueue_script( 'jQueryValidation');
 		
 		
-		//DATE TIME PICKER JS
-		wp_register_style('PFjQueryUI', Pie_Forms::$url . 'assets/css/lib/jquery-ui.min.css', array(), Pie_Forms::VERSION );
+	
 		
 
 		//FRONT END FORM SCRIPT
@@ -261,6 +265,17 @@ class PIE_Shortcodes_Form {
 			);
 		}
 
+	}
+	/**
+	 * Form field area.
+	 */
+	public static function fields( $form_data, $title, $description ) {
+		$structure 	= isset( $form_data['structure'] ) ? $form_data['structure'] : array();
+		$is_ajax  	= $form_data['settings']['ajax_form_submission'];
+		if ( empty( $form_data['form_fields'] ) ) {
+			return;
+		}
+		
 	
 		
 		
@@ -604,11 +619,6 @@ class PIE_Shortcodes_Form {
 	 */
 	public static function output( $atts ) {
 
-		if ( Pie_Forms()->core()->pie_is_field_exists( $atts['id'], 'date' ) ) {
-			wp_enqueue_script( 'jquery-ui-datepicker' );
-			wp_enqueue_style( 'PFjQueryUI' );
-		}
-
 		$atts = shortcode_atts(
 			array(
 				'id'          => false,
@@ -623,14 +633,14 @@ class PIE_Shortcodes_Form {
 		do_action( 'pie_forms_shortcode_scripts', $atts );
 
 		ob_start();
-		self::view( $atts['id'], $atts['title'], $atts['description'] );
+		self::view( $atts['id'], $atts['title'], $atts['description'], $atts );
 		echo ob_get_clean(); 
 	}
 
 	/**
 	 * Form view.
 	 */
-	private static function view( $id, $title = false, $description = false ) {
+	private static function view( $id, $title = false, $description = false, $atts = false ) {
 		if ( empty( $id ) ) {
 			return;
 		}
@@ -645,6 +655,8 @@ class PIE_Shortcodes_Form {
 		
 		// GET BASIC INFO.
 		$form_data            = apply_filters( 'pie_forms_frontend_form_data', Pie_Forms()->core()->pf_decode( wp_unslash($form->form_data) ) );
+
+		self::wp_enqueue_assests($form_data, $atts);
 
 		$form_id              = absint( $form->form_id );
 		
@@ -690,15 +702,7 @@ class PIE_Shortcodes_Form {
 			return;
 		}
 		?>
-		<style>
-			.pie-forms .pf-success-msg{
-				background: green;
-				color: #fff;
-				text-align: center;
-				padding: 10px 30px;
-				border-radius: 40px;
-			}
-		</style>
+
 		<?php
 		$success = apply_filters( 'pie_forms_success', false, $form_id );
 		if ( $success && ! empty( $form_data ) ) {

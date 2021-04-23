@@ -1,6 +1,32 @@
 (function($) {
     var $pie_form  = $( 'form.pie-form' )
+    var removeHeaderHeight = $('header').height();
+    $pie_form.each( function( i, v ) {
+        $( document ).ready( function() {
+            var formTuple = $( v ),
+                btn = formTuple.find( '.pie-submit' );
 
+            
+            btn.on( 'click', function( e ) {
+                
+                var data = formTuple.serializeArray();
+                e.preventDefault();
+
+                // We let the bubbling events in form play itself out.
+                formTuple.trigger( 'focusout' ).trigger( 'change' ).trigger( 'submit' );
+
+                
+                var errors = formTuple.find( '.pie-error:visible' );
+                
+                if ( errors.length > 0 ) {
+                    $( [document.documentElement, document.body] ).animate({
+                        scrollTop: errors.offset().top - removeHeaderHeight
+                    }, 800 );
+                    return;
+                }
+             });
+        });
+    });
     if ( typeof $.fn.validate === 'undefined' ) {
         return false;
     }
@@ -94,7 +120,7 @@
         $this.validate({
             messages: error_messages,
             rules: validate_rules,
-            
+            focusInvalid: false,
             ignore: '',
             errorClass: 'pie-error',
             validClass: 'pie-valid',
@@ -220,6 +246,16 @@
         return custom_validation_msg;
     });
 
+    // AFTER FROM SUBMISSION SCROLL TO SUCCESS
+    if(jQuery('.pf-success-msg').length > 0){
+    var removeHeaderHeight = jQuery('header').height();
+        jQuery( [document.documentElement, document.body] ).animate({
+            scrollTop: $('.pf-success-msg').offset().top - removeHeaderHeight
+        }, 800 );
+        
+    }
+
+
     //TEXTAREA WORD LIMIT
     
     $('.pie-forms-limit-words-enabled').each(function(){
@@ -287,9 +323,8 @@
     
     //CAPTCHA LOAD FOCUS FIELDS
     var captchaLoaded = false;
-    $('.pf-field-wrapper input').on('focus', function() {
-        
-        
+
+    $(document).on('focus change keyup', '.pie-field input, .pie-field select, .pie-field textarea', function() {
 
         if (captchaLoaded) {
             return;

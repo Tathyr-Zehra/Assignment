@@ -70,6 +70,7 @@ class PIE_Fields_Number extends PIE_Abstracts_Fields {
 			array(
 				'type'  => 'number',
 				'slug'  => 'step',
+				'min'	=> '1',
 				'class' => 'pf-input-number-step',
 				'value' => isset( $field['step'] ) ? $field['step'] : 1,
 			),
@@ -105,6 +106,7 @@ class PIE_Fields_Number extends PIE_Abstracts_Fields {
 			array(
 				'type'  => 'number',
 				'slug'  => 'min_value',
+				'min'	=> '1',
 				'class' => 'pf-input-number',
 				'value' => isset( $field['min_value'] ) ? $field['min_value'] : '',
 			),
@@ -140,6 +142,7 @@ class PIE_Fields_Number extends PIE_Abstracts_Fields {
 			array(
 				'type'  => 'number',
 				'slug'  => 'max_value',
+				'min'	=> '0',
 				'class' => 'pf-input-number',
 				'value' => isset( $field['max_value'] ) ? $field['max_value'] : '',
 			),
@@ -204,7 +207,7 @@ class PIE_Fields_Number extends PIE_Abstracts_Fields {
 		
 		// Primary field.
 		printf(
-			'<input type="number" %s %s>',
+			'<input type="number" %s %s min="0">',
 			PIE_Forms()->core()->pie_html_attributes( $primary['id'], $primary['class'], $primary['data'], $primary['attr'] ),
 			esc_attr( $primary['required'] )
 		);
